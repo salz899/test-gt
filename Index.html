@@ -1,0 +1,111 @@
+<html>
+
+	<head>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-KMMH4LM');</script>
+		<!-- End Google Tag Manager -->
+	</head>
+
+
+	<body>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KMMH4LM"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+
+		<h1>GTM TESTING AREA</h1>
+
+		<h2> dataLayer push object will appear below (FOR CUSTOM EVENTS ONLY): </h2>
+		<pre>
+			<div style="text-align:left; margin: auto" id="datalayer-push-preview"></div>
+		</pre>
+
+		<h2>Page View (PAGE_VIEW)</h2>
+		No elements needed, triggered on page load.
+
+		<h2>On Click (CLICK_LEFT)</h2>
+
+		The following elements have an onclick that pushes a datalayer to ONE tag using a custom event trigger (actual implementation may vary): 
+
+		<ul>
+			<li><a href="#" class="test-onclick-datalayer-push">Element 1 (anchor)</a></li>
+			<li><button class="test-onclick-datalayer-push">Element 2 (button)</button></li>
+			<li><span class="test-onclick-datalayer-push">Element 3 (span)</span></li>
+		</ul>
+
+		<h2>On Type [input of >3 characters] (TYPE)</h2>
+		
+		The following textbox will send a datalayer push once more than 3 characters have been entered into the field (length of input > 3 chars)
+
+		<input type="text" id="test-type-datalayer-push" />
+
+		<h2>Youtube Video Tracking</h2>
+		<iframe width="560" height="315" enablejsapi=1 src="https://www.youtube.com/embed/eY52Zsg-KVI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<iframe width="560" height="315" enablejsapi=1 src="https://www.youtube.com/embed/oUjU15WCkNg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+		<div>
+			<a href="./page2.html">This link takes you to another page, but clicking on it TRIGGERS NO DATALAYER PUSH. It is for testing the window history trigger.</a>
+		</div>
+
+		<div style="margin-top: 50em">just here for spacing</div>
+		<script>
+			let previewer = document.querySelector("#datalayer-push-preview")
+			
+			// CLICK TESTING
+			let onclick_elements = document.querySelectorAll(".test-onclick-datalayer-push")
+
+			for(let i = 0; i < onclick_elements.length; i++)	{
+				let element = onclick_elements[i]
+				element.onclick = function(event)	{
+					let dL_push = {
+							'event': 'TEST_EVENT_TRIGGER_ONCLICK',
+							'ACTION': 'CLICK_LEFT',
+							'LABEL': event.target.innerHTML,
+							'VALUE': 'MAIN',
+							'EXTRA': 'XYZ'
+							}
+					updatePreviewer(dL_push)
+					window.dataLayer.push(dL_push)
+				}
+			}
+
+			// TYPE TESTING
+			let input_box = document.querySelector("#test-type-datalayer-push")
+			let isFilled = false
+			let dLPushed = false
+			input_box.oninput = function(event)	{
+				if (input_box.value.length > 3)	{
+					if (dLPushed == false)	{
+						let dL_push = {
+							'event': 'TEST_EVENT_TRIGGER_ONTYPE',
+							'ACTION': 'TYPE',
+							'LABEL': 'TEXTBOX_TEST',
+							'VALUE': input_box.value,
+							'EXTRA': 'ABC'
+						}
+						updatePreviewer(dL_push)
+						window.dataLayer.push(dL_push)
+						dLPushed = true
+					}
+				} else {
+					isFilled = false
+					dLPushed = false
+				}
+			}
+
+			// OUR CONVENTION
+			
+
+			// HELPER FUNCTIONS
+			function updatePreviewer(new_value)	{	
+				previewer.innerHTML = JSON.stringify(new_value, null, 2)
+			}
+
+		</script>
+	</body>
+
+</html>
